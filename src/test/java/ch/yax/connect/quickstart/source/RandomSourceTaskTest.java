@@ -30,10 +30,10 @@ public class RandomSourceTaskTest {
         when(context.offsetStorageReader()).thenReturn(offsetStorageReader);
 
         final RandomSourceTasks tasks = createRandomSourceTasks();
-        tasks.start(Map.of("topic", "foo", RandomSourceConfig.POLL_INTERVAL_CONFIG, "500"));
+        tasks.start(Map.of("topic", "foo", RandomSourceConfig.POLL_INTERVAL_CONFIG, "500","ws.uri","ws://10.220.16.234/live/terminal-stats"));
 
         // at least after one second we must have a result
-        await().atMost(Duration.TWO_SECONDS)
+        await().atMost(Duration.ONE_MINUTE)
                 .until(() -> hasElements(tasks.poll()));
 
     }
@@ -43,7 +43,7 @@ public class RandomSourceTaskTest {
         when(context.offsetStorageReader()).thenReturn(offsetStorageReader);
 
         final RandomSourceTasks tasks = createRandomSourceTasks();
-        tasks.start(Map.of("topic", "foo", RandomSourceConfig.POLL_INTERVAL_CONFIG, "100"));
+        tasks.start(Map.of("topic", "foo", RandomSourceConfig.POLL_INTERVAL_CONFIG, "100","ws.uri","ws://192.168.1.10:8181"));
 
         tasks.stop();
 
